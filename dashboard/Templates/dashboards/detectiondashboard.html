@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% block content %}
+<title> Dashboard </title>
+  <!-- .page -->
+  <div class="page">
+    <!-- .page-inner -->
+    <div class="page-inner">
+      <!-- .page-title-bar -->
+      <header class="page-title-bar">
+        <div class="d-flex flex-column flex-md-row">
+          <p class="lead">
+            <span class="font-weight-bold">Hi, {{user.username|default:'Guest'}}.</span> <span class="d-block text-muted">Here’s what’s happening with the network today.</span>
+          </p>
+          <div class="ml-auto">
+            <input class="btn btn-secondary" readonly disabled value="Capture Status: {{ status }}">
+          </div>
+        </div>
+      </header><!-- /.page-title-bar -->
+      <!-- .page-section -->
+      <div class="page-section">
+        <!-- .section-block -->
+        <div class="section-block">
+          <!-- metric row -->
+          <div class="metric-row">
+            <div class="col-lg-9">
+              <div class="metric-row metric-flush">
+                <!-- metric column -->
+                <div class="col">
+                  <!-- .metric -->
+                  <div class="metric metric-bordered align-items-center">
+                    <h2 class="metric-label"> Files Transmitted Today</h2>
+                    <p class="metric-value h3">
+                      <sub><i class="oi oi-people"></i></sub> <span class="value">{{ todayCount }}</span>
+                    </p>
+                  </div> <!-- /.metric -->
+                </div><!-- /metric column -->
+                <!-- metric column -->
+                <div class="col">
+                  <!-- .metric -->
+                  <div class="metric metric-bordered align-items-center">
+                    <h2 class="metric-label"> Total Benign Files </h2>
+                    <p class="metric-value h3">
+                      <sub><i class="oi oi-fork"></i></sub> <span class="value">{{ benignCount }}</span>
+                    </p>
+                  </div> <!-- /.metric -->
+                </div><!-- /metric column -->
+                <!-- metric column -->
+                <div class="col">
+                  <!-- .metric -->
+                  <div class="metric metric-bordered align-items-center">
+                    <h2 class="metric-label"> Total Malicious Files </h2>
+                    <p class="metric-value h3">
+                      <sub><i class="fa fa-tasks"></i></sub> <span class="value">{{ malwareCount }}</span>
+                    </p>
+                  </div> <!-- /.metric -->
+                </div><!-- /metric column -->
+              </div>
+            </div><!-- metric column -->
+            <div class="col-lg-3">
+              <!-- .metric -->
+              <div class="metric metric-bordered">
+                <div class="metric-badge">
+                  <span class="badge badge-lg badge-info"><span class="oi oi-media-record pulse mr-1"></span> Total Transmitted Files </span>
+                </div>
+                <p class="metric-value h3">
+                  <sub><i class="oi oi-timer"></i></sub> <span class="value">{{ allCount }}</span>
+                </p>
+              </div> <!-- /.metric -->
+            </div><!-- /metric column -->
+          </div><!-- /metric row -->
+        </div><!-- /.section-block -->
+        <br>
+        <br>
+        <!-- grid row -->
+        <div class="row">
+          <!-- grid column -->
+          <div class="col-12 col-lg-12 col-xl-4">
+            <!-- .card -->
+            <div class="card card-fluid">
+              <!-- .card-body -->
+              <div class="card-body">
+                <h3 class="card-title mb-4"> Percentage Of Total Detections </h3>
+                <div class="chartjs" style="height: 350px">
+                  <div id="chart"></div>
+                </div>
+              </div><!-- /.card-body -->
+            </div><!-- /.card -->
+          </div><!-- /grid column -->
+          <!-- grid column -->
+          <div class="col-12 col-lg-6 col-xl-4">
+            <!-- .card -->
+            <div class="card card-fluid">
+              <!-- .card-body -->
+              <div class="card-body">
+                <h3 class="card-title mb-4"> Files Transmitted Within The Last 7 Days </h3>
+                <div class="chartjs" style="height: 350px">
+                  <div id="chart2"></div>
+                </div>
+              </div><!-- /.card-body -->
+            </div><!-- /.card -->
+          </div><!-- /grid column -->
+          <!-- grid column -->
+          <div class="col-12 col-lg-6 col-xl-4">
+            <!-- .card -->
+            <div class="card card-fluid">
+              <!-- .card-body -->
+              <div class="card-body">
+                <h3 class="card-title mb-4"> Malware Files Detected Within The Last 3 Months </h3>
+                <div class="chartjs" style="height: 350px">
+                  <div id="chart3"></div>
+                </div>
+              </div><!-- /.card-body -->
+            </div><!-- /.card -->
+          </div><!-- /grid column -->
+        </div><!-- /grid row -->
+      </div><!-- /.page-section -->
+    </div><!-- /.page-inner -->
+  </div><!-- /.page -->
+  <script>
+    var benignCount= {{ benignCount }};
+    var malwareCount= {{ malwareCount }};
+    var options = {
+      series: [benignCount, malwareCount],
+      labels: ['Benign', 'Malware'],
+      chart: {
+        type: 'pie',
+        width: '490px',
+      },
+      colors: ['#346Cb0', '#e74c3c'],
+    };
+    
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  </script>
+  <script>
+    var options = {
+      series: [
+        {
+          name: 'Benign',
+          data: [
+            { x: '{{ last7Days.beforeSixDays.Date}}', y: {{ last7Days.beforeSixDays.Benign}} },
+            { x: '{{ last7Days.beforeFiveDays.Date}}', y: {{ last7Days.beforeFiveDays.Benign}} },
+            { x: '{{ last7Days.beforeFourDays.Date}}', y: {{ last7Days.beforeFourDays.Benign}} },
+            { x: '{{ last7Days.beforeThreeDays.Date}}', y: {{ last7Days.beforeThreeDays.Benign}} },
+            { x: '{{ last7Days.beforeTwoDays.Date}}', y: {{ last7Days.beforeTwoDays.Benign}} },
+            { x: '{{ last7Days.beforeOneDay.Date}}', y: {{ last7Days.beforeOneDay.Benign}} },
+            { x: '{{ last7Days.today.Date}}', y: {{ last7Days.today.Benign}} },
+          ]
+        },
+        {
+          name: 'Malware',
+          data: [
+            { x: '{{ last7Days.beforeSixDays.Date}}', y: {{ last7Days.beforeSixDays.Malware}} },
+            { x: '{{ last7Days.beforeFiveDays.Date}}', y: {{ last7Days.beforeFiveDays.Malware}} },
+            { x: '{{ last7Days.beforeFourDays.Date}}', y: {{ last7Days.beforeFourDays.Malware}} },
+            { x: '{{ last7Days.beforeThreeDays.Date}}', y: {{ last7Days.beforeThreeDays.Malware}} },
+            { x: '{{ last7Days.beforeTwoDays.Date}}', y: {{ last7Days.beforeTwoDays.Malware}} },
+            { x: '{{ last7Days.beforeOneDay.Date}}', y: {{ last7Days.beforeOneDay.Malware}} },
+            { x: '{{ last7Days.today.Date}}', y: {{ last7Days.today.Malware}} },
+          ]
+        }
+      ],
+      chart: {
+        type: 'bar',
+        height: '350px',
+      },
+      plotOptions: {
+        bar: {
+          stacked: true,
+        }
+      },
+      xaxis: {
+        type: 'string',
+      },
+      yaxis: {
+        title: {
+          text: 'Count of Type'
+        },
+        labels: {
+          formatter: function (value) {
+            return Math.round(value);
+          }
+        }
+      },
+      legend: {
+        position: 'top',
+      },
+      colors: ['#346Cb0', '#e74c3c'],
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart2"), options);
+    chart.render();
+  </script>
+  <script>
+    var options = {
+      series: [{
+        data: [
+          { x: '{{last3Months.twoMonthsAgo.Month}}', y: {{last3Months.twoMonthsAgo.Count}} },
+          { x: '{{last3Months.oneMonthAgo.Month}}', y: {{last3Months.oneMonthAgo.Count}} },
+          { x: '{{last3Months.thisMonth.Month}}', y: {{last3Months.thisMonth.Count}} },
+        ]
+      }],
+      chart: {
+        type: 'bar',
+        height: '350px',
+      },
+      xaxis: {
+        type: 'string'
+      },
+      yaxis: {
+        title: {
+          text: 'Number of Files'
+        },
+        forceNiceScale: true,
+        labels: {
+          formatter: function (value) {
+            return Math.round(value);
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val) {
+          return Math.round(val);
+        }
+      },
+      tooltip: {
+        y: {
+          formatter: function (val) {
+            return Math.round(val);
+          }
+        }
+      },
+      colors: ['#346Cb0'],
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart3"), options);
+    chart.render();
+  </script>
+{% endblock %}

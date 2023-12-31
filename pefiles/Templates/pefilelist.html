@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style>
+        .table{
+            width: 100%;
+            table-layout: fixed;
+        }
+      
+        .table th,
+        .table td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+      
+        @media (min-width: 577px) and (max-width: 1700px) {
+        .table th,
+        .table td {
+            white-space: normal;
+        }
+  }
+
+        @media (max-width: 576px) {
+        .table th,
+        .table td {
+            white-space: normal;
+            word-break: break-word;
+        }
+        }
+    </style>
+    <script>
+        function toggleSortOrder(column) {
+            var currentColumn = "{{ column }}";
+            var currentSort = "{{ sort }}";
+            var newSort = "asc";
+
+            if (currentColumn === column && currentSort === "asc") {
+                newSort = "desc";
+            }
+
+            var url = window.location.href.split('?')[0] + '?column=' + column + '&sort=' + newSort;
+            window.location.href = url;
+        }
+    </script>
+</head>
+<title> PE File List </title>
+  <!-- .page -->
+  <div class="page">
+    <!-- .page-inner -->
+    <div class="page-inner">
+      <!-- .page-title-bar -->
+      <header class="page-title-bar">
+        <div class="d-flex flex-column flex-md-row">
+          <div class="ml-auto">
+          </div>
+        </div>
+      </header><!-- /.page-title-bar -->
+      <!-- .page-section -->
+      <div class="page-section">
+        <!-- card-deck-xl -->
+        <div class="card-deck-xl">
+            <!-- .card -->
+            <div class="card card-fluid pb-3">
+              <div class="card-header mx-5 mt-2" style="font-size: 26px"> Detected Data </div><!-- .lits-group -->
+              <div class="lits-group list-group-flush">
+                </div><!-- /.lits-group-item -->
+                <br>
+                <form method="get" action="">
+                    <div class="row mx-6" style="float:right;">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Type:</label>
+                                <select class="form-control" style="white-space: nowrap; text-overflow: ellipsis;" name="file_type">
+                                    <option value="">All</option>
+                                    <option value="Benign" {% if file_type == 'Benign' %}selected{% endif %}>Benign</option>
+                                    <option value="Malware" {% if file_type == 'Malware' %}selected{% endif %}>Malware</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Search:</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="search" value="{{ search_query|default:'' }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label style="visibility:hidden;">Placeholder</span></label>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" style="white-space: nowrap; text-overflow: ellipsis;" type="submit">Apply & Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="list-group-item mx-5">
+                    <table class="table table-striped" style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%;" scope="col">
+                                    <a href="#" onclick="toggleSortOrder('hash')">Hash</a>
+                                </th>
+                                <th style="width: 15%;" scope="col">
+                                    <a href="#" onclick="toggleSortOrder('type')">Type</a>
+                                </th>
+                                <th style="width: 15%;" scope="col">
+                                    <a href="#" onclick="toggleSortOrder('date')">Date</a>
+                                </th>
+                                <th style="width: 15%;" scope="col">
+                                    <a href="#" onclick="toggleSortOrder('time')">Time</a>
+                                </th>
+                                <th style="width: 15%;" scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pefile in pefiles %}
+                            <tr>
+                                <td>{{ pefile.sha256 }}</td>
+                                <td>{{ pefile.Type }}</td>
+                                <td>{{ pefile.Date|date:"Y-m-d" }}</td>
+                                <td>{{ pefile.Time }}</td>
+                                <td><a href="{% url 'PeFiles:showDetails' hash=pefile.sha256 %}">View Details</a></td>
+                              </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+              </div><!-- /.lits-group -->
+            </div><!-- /.card -->
+          </div><!-- /card-deck-xl -->
+        <ul>
+        </ul>
+      </div><!-- /.page-section -->
+    </div><!-- /.page-inner -->
+  </div><!-- /.page -->
+{% endblock %}

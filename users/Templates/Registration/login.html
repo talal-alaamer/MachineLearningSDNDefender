@@ -1,0 +1,69 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
+    <title> Login </title>
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="{% static 'stylesheets/theme.min.css' %}" data-skin="default">
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header app-header-dark">
+        <!-- .top-bar -->
+        <div class="top-bar">
+          <!-- .top-bar-brand -->
+          <div class="top-bar-brand">
+            <!-- toggle aside menu -->
+            <span class= "mr-4"></span>
+            <a class= "mr-2" href="">
+              ML SDN Defender
+            </a>
+          </div><!-- /.top-bar-brand -->
+        </div><!-- /.top-bar -->
+      </header><!-- /.app-header -->
+      <!-- .app-main -->
+      <main class="app-main">
+        <!-- .wrapper -->
+        <div class="wrapper">
+          <center>
+            <div class="row">
+              <!-- grid column -->
+              <div class="col-12 col-lg-12">
+                <!-- .card -->
+                <div class="card-fluid">
+                  <!-- .card-body -->
+                  <div class="card-body"> 
+                    <img class="my-3 mr-2" style="max-width: 22em; height:auto;" src="{% static 'icons/Logo.png' %}">
+                    <div class="chartjs" style="height: auto">
+                      <h1 class="pt-5 pb-2 px-6">Login</h1>
+                      <form method="POST">
+                        {% csrf_token %}
+                        <fieldset class="form-group" style="width:450px">
+                          <legend class="border-bottom mb-4">
+                            {{ form|crispy}}
+                          </legend>
+                        </fieldset>
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-outline-info">Login</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+              </div><!-- /grid column -->
+            </div>
+          </center>
+        </div><!-- .app-footer -->
+        <!-- /.wrapper -->
+      </main><!-- /.app-main -->
+    </div><!-- /.app -->
+  </body>
+</html>
+
+  

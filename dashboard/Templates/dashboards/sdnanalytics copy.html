@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<title> SDN Performance </title>
+<!-- .page -->
+<div class="page">
+    <!-- .page-inner -->
+    <div class="page-inner">
+      <!-- .page-title-bar -->
+      <header class="page-title-bar">
+        <div class="d-flex flex-column flex-md-row">
+          <p class="lead">
+            <span class="font-weight-bold">Hi, {{user.username|default:'Guest'}}.</span> <span class="d-block text-muted">Look at how your SDN controller is doing.</span>
+          </p>
+          <div class="ml-auto">
+          </div>
+        </div>
+      </header><!-- /.page-title-bar -->
+      <!-- .page-section -->
+      <div class="page-section">
+        <!-- grid row -->
+        <div class="row">
+          <!-- grid column -->
+          <div class="col-12 col-lg-12">
+            <!-- .card -->
+            <div class="card card-fluid">
+              <!-- .card-body -->
+              <div class="card-body">
+                <h3 class="card-title mb-4"> SDN Performance </h3>
+                <div class="chartjs" style="height: 292px">
+                    Embedded visualization / SDN controller API call
+                </div>
+              </div><!-- /.card-body -->
+            </div><!-- /.card -->
+          </div><!-- /grid column -->
+          <!-- grid column -->
+          <div class="col-12 col-lg-6 col-xl-6">
+            <!-- .card -->
+            <div class="card card-fluid">
+              <!-- .card-body -->
+              <div class="card-body">
+                <h3 class="card-title mb-4"> Dashboard title </h3>
+                <div class="chartjs" style="height: 292px">
+                  Embedded visualization
+                </div>
+              </div><!-- /.card-body -->
+            </div><!-- /.card -->
+          </div><!-- /grid column -->
+          <!-- grid column -->
+          <div class="col-12 col-lg-6 col-xl-6">
+            <!-- .card -->
+            <div class="card card-fluid">
+              <!-- .card-body -->
+              <div class="card-body">
+                <h3 class="card-title mb-4"> Dashboard title </h3>
+                <div class="chartjs" style="height: 292px">
+                  Embedded visualization
+                </div>
+              </div><!-- /.card-body -->
+            </div><!-- /.card -->
+          </div><!-- /grid column -->
+        </div><!-- /grid row -->
+      </div><!-- /.page-section -->
+    </div><!-- /.page-inner -->
+  </div><!-- /.page -->
+  <script>
+    const response = JSON.parse(apiResponse);
+    const nodes = response.nodes;
+    const connections = response.connections;
+    nodes.forEach((node) => {
+      const nodeId = node.nodeId;
+      const nodeName = node.nodeName;
+    });
+    connections.forEach((connection) => {
+      const connectionId = connection.id;
+      const sourceNodeId = connection.sourceNodeId;
+      const targetNodeId = connection.targetNodeId;
+    });
+  </script>
+{% endblock %}

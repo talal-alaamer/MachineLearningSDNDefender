@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<title> Notifications </title>
+  <!-- .page -->
+  <div class="page">
+    <!-- .page-inner -->
+    <div class="page-inner">
+      <!-- .page-title-bar -->
+      <header class="page-title-bar">
+        <div class="d-flex flex-column flex-md-row">
+          <div class="ml-auto">
+          </div>
+        </div>
+      </header><!-- /.page-title-bar -->
+      <!-- .page-section -->
+      <div class="page-section">
+        <!-- card-deck-xl -->
+        <div class="card-deck-xl">
+          <!-- .card -->
+          <div class="card card-fluid pb-3">
+            <div class="card-header mx-5 mt-2" style="font-size: 26px"> Notifications </div><!-- .lits-group -->
+            <div class="lits-group list-group-flush">
+              <br>
+              {% for item in page_obj %}
+              <!-- .lits-group-item -->
+              <div class="list-group-item mx-5">
+                <!-- .lits-group-item-figure -->
+                <div class="list-group-item-figure">
+                </div><!-- .lits-group-item-figure -->
+                <!-- .lits-group-item-body -->
+                <div class="list-group-item-body">
+                  <h5 class="card-title">
+                    <p style="font-size: 18px;">
+                      {{ item.title }}
+                      <img class="px-4" src="{% static 'icons/warning.png' %}" style="float:right;">
+                      <p class="card-subtitle text-muted mb-1" style="font-size: 14px"> New detection on {{ item.date|date:"Y-m-d" }} at {{ item.time }} with the hash value <a href="{% url 'PeFiles:showDetails' hash=item.sha256 %}">{{ item.sha256 }}</a></p>
+                      </p>
+                  </h5>
+                  <div class="progress progress-xs bg-transparent">
+                    <div class="progress-bar bg-indigo" style="width: 98%; height:1px">
+                    </div>
+                  </div><!-- /.progress -->
+                </div><!-- .lits-group-item-body -->
+              </div><!-- /.lits-group-item -->
+              {% endfor %}
+              <br>
+              <!-- Pagination links -->
+              <div class="list-group-item">
+                <span class="menu-text modal-dialog-centered">
+                  {% if page_obj.has_previous %}
+                    <a href="?page=1">First</a>
+                    <a class="mx-1" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                  {% else %}
+                    <a>First</a>
+                    <a class="mx-1">Previous</a>
+                  {% endif %}
+
+                  <span class="mx-4 current-page">Page {{ page_obj.number }}</span>
+
+                  {% if page_obj.has_next %}
+                    <a class="mx-1" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                  {% else %}
+                    <a class="mx-1">Next</a>
+                    <a>Last</a>
+                  {% endif %}
+                </span>
+              </div>
+            </div><!-- /.lits-group -->
+          </div><!-- /.card -->
+        </div><!-- /card-deck-xl -->
+      </div><!-- /.page-section -->
+    </div><!-- /.page-inner -->
+  </div><!-- /.page -->
+{% endblock %}

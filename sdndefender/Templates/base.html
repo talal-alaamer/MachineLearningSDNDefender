@@ -1,0 +1,182 @@
+{% load static %}
+{% load admin_urls %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="{% static 'stylesheets/theme.min.css' %}" data-skin="default">
+    <script>
+      function toggleSidebar(){
+        var a = document.getElementById("maindiv").className
+        if (a=="app"){
+          document.getElementById("maindiv").className = "app has-compact-menu"
+          document.getElementById("stacked-menu").className = "stacked-menu stacked-menu-has-compact stacked-menu-has-hoverable"
+        }else{
+          document.getElementById("maindiv").className = "app"
+          document.getElementById("stacked-menu").className = "stacked-menu stacked-menu-has-collapsible"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  </head>
+  <body>
+    <div id="maindiv" class="app">
+      <header class="app-header app-header-dark">
+        <!-- .top-bar -->
+        <div class="top-bar">
+          <!-- .top-bar-brand -->
+          <div class="top-bar-brand">
+            <!-- toggle aside menu -->
+            <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu" onclick="toggleSidebar()"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
+            <a href="">
+              ML SDN Defender
+            </a>
+          </div><!-- /.top-bar-brand -->
+          <!-- .top-bar-list -->
+          <div class="top-bar-list">
+            <!-- .top-bar-item -->
+            <div class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+              <!-- toggle menu -->
+              <button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="toggle menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle menu -->
+            </div><!-- /.top-bar-item -->
+            <!-- .top-bar-item -->
+            <div class="top-bar-item top-bar-item-full">
+            </div><!-- /.top-bar-item -->
+            <!-- .top-bar-item -->
+            <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+              <!-- .nav -->
+              <ul class="header-nav nav">
+                <!-- .nav-item -->
+                <li class="nav-item dropdown header-nav-dropdown">
+                  <a class="nav-link" href="{% url 'notification:showNotifications' %}"><img src="{% static 'icons/notification-white.png' %}"></a>
+                </li><!-- /.nav-item -->
+                <!-- .nav-item -->
+                <li class="nav-item dropdown header-nav-dropdown">
+                  <a class="nav-link" href="{% url 'users:userdetails' %}"><img src="{% static 'icons/profile.png' %}"></a>
+                </li><!-- /.nav-item -->
+              </ul><!-- /.nav -->
+              <!-- .btn-account -->
+              <div class="dropdown d-none d-md-flex">
+                <a href="{% url 'logout' %}" class="menu-link text-decoration-none"><button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">Logout</span></span></button></a> <!-- .dropdown-menu -->
+              </div><!-- /.btn-account -->
+            </div><!-- /.top-bar-item -->
+          </div><!-- /.top-bar-list -->
+        </div><!-- /.top-bar -->
+      </header><!-- /.app-header -->
+      <!-- .app-aside -->
+      <aside class="app-aside app-aside-expand-md app-aside-light">
+        <!-- .aside-content -->
+        <div class="aside-content">
+          <!-- .aside-menu -->
+          <div class="aside-menu overflow-hidden">
+            <!-- .stacked-menu -->
+            <nav id="stacked-menu" class="stacked-menu">
+              <!-- .menu -->
+              <ul class="menu">
+                <!-- .menu-header -->
+                <li class="menu-header">Pages </li><!-- /.menu-header -->
+                <!-- .menu-item -->
+                {% if request.path == '/' %}
+                <li class="menu-item has-active">
+                {% else %}
+                <li class="menu-item">
+                {% endif %}
+                  <a href="{% url 'dashboard:detectionDashboard' %}" class="menu-link"><span class="menu-icon"><img src="{% static 'icons/performance.png' %}"></span> <span class="menu-text">Detection Dashboard</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                {% if request.path == '/pefiles/' %}
+                <li class="menu-item has-active">
+                {% else %}
+                <li class="menu-item">
+                {% endif %}
+                  <a href="{% url 'PeFiles:displayPeFiles' %}" class="menu-link"><span class="menu-icon"><img src="{% static 'icons/data.png' %}"></span> <span class="menu-text">Detected Data</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                {% if request.path == '/sdnanalytics' %}
+                <li class="menu-item has-active">
+                {% else %}
+                <li class="menu-item">
+                {% endif %}
+                  <a href="{% url 'dashboard:sdnanalytics' %}" class="menu-link"><span class="menu-icon"><img src="{% static 'icons/dashboard.png' %}"></span> <span class="menu-text">SDN Analytics</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                {% if request.path == '/notification/' %}
+                <li class="menu-item has-active">
+                {% else %}
+                <li class="menu-item">
+                {% endif %}
+                  <a href="{% url 'notification:showNotifications' %}" class="menu-link"><span class="menu-icon"><img src="{% static 'icons/notification.png' %}"></span> <span class="menu-text">Notifications</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                {% if request.path == '/audits/' %}
+                <li class="menu-item has-active">
+                {% else %}
+                <li class="menu-item">
+                {% endif %}
+                  <a href="{% url 'audits:viewaudits' %}" class="menu-link"><span class="menu-icon"><img src="{% static 'icons/audit.png' %}"></span> <span class="menu-text">Audit Trail</span></a>
+                </li><!-- /.menu-item -->
+              </ul><!-- /.menu -->
+            </nav><!-- /.stacked-menu -->
+          </div><!-- /.aside-menu -->
+          <!-- Skin changer -->
+          <footer class="aside-footer border-top p-2">
+            <a href="http://10.31.40.191" target="_blank"><button class="btn btn-light btn-block text-primary" data-toggle="skin"><span class="d-compact-menu-none">SDN Controller</span> <i class="fas fa-moon ml-1"></i></button></a>
+            <a href="{% url 'admin:index' %}" target="_blank"><button class="btn btn-light btn-block text-primary" data-toggle="skin"><span class="d-compact-menu-none">User Management Portal</span> <i class="fas fa-moon ml-1"></i></button></a>
+          </footer><!-- /Skin changer -->
+        </div><!-- /.aside-content -->
+      </aside><!-- /.app-aside -->
+      <!-- .app-main -->
+      <main class="app-main">
+        <!-- .wrapper -->
+        <div class="wrapper">
+          {% block content %}
+          {% endblock %}
+        </div><!-- .app-footer -->
+        <footer class="app-footer">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <a class="text-muted" href="mailto:202001648@student.polytechnic.bh?subject=Support">Support</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="{% url 'information:privacy' %}">Privacy</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="{% url 'information:terms' %}">Terms of Service</a>
+            </li>
+          </ul>
+          <div class="copyright"> Copyright © 2023. Machine Learning SDN Defender. </div>
+        </footer><!-- /.app-footer -->
+        <!-- /.wrapper -->
+      </main><!-- /.app-main -->
+    </div><!-- /.app -->
+
+    <!-- BEGIN THEME JS -->
+    <script src="{% static 'javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
+    <!-- BEGIN PAGE LEVEL JS -->
+    <script src="{% static 'javascript/pages/dashboard-demo.js' %}"></script> <!-- END PAGE LEVEL JS -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116692175-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag()
+      {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-116692175-1');
+
+      window.addEventListener('beforeunload', function (e) {
+            fetch('/logout', {
+                method: 'POST',
+                credentials: 'include', 
+            });
+        });
+    </script>
+  </body>
+</html>

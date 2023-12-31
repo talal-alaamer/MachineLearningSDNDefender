@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style>
+        .table{
+            width: 100%;
+            table-layout: fixed;
+        }
+      
+        .table th,
+        .table td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+      
+        @media (min-width: 577px) and (max-width: 1700px) {
+        .table th,
+        .table td {
+            white-space: normal;
+        }
+  }
+
+        @media (max-width: 576px) {
+        .table th,
+        .table td {
+            white-space: normal;
+            word-break: break-word;
+        }
+        }
+    </style>
+</head>
+<title> SDN Analytics </title>
+  <!-- .page -->
+  <div class="page">
+    <!-- .page-inner -->
+    <div class="page-inner">
+      <!-- .page-title-bar -->
+      <header class="page-title-bar">
+        <div class="d-flex flex-column flex-md-row">
+          <p class="lead">
+            <span class="font-weight-bold">Hi, {{user.username|default:'Guest'}}.</span> <span class="d-block text-muted">Look at how your <a href="http://10.31.40.191" target="_blank">SDN Controller</a> is doing.</span>
+          </p>
+          <div class="ml-auto">
+          </div>
+        </div>
+      </header><!-- /.page-title-bar -->
+      <!-- .page-section -->
+      <div class="page-section">
+        <!-- card-deck-xl -->
+        <div class="card-deck-xl">
+            <!-- .card -->
+            <div class="card card-fluid pb-3">
+              <div class="card-header mx-5 mt-2" style="font-size: 26px"> Devices </div><!-- .lits-group -->
+              <div class="lits-group list-group-flush">
+                </div><!-- /.lits-group-item -->
+                <br>
+                <div class="list-group-item mx-5">
+                    <table class="table table-striped" style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th style="width:25%" scope="col">Hostname</th>
+                                <th style="width:25%" scope="col">Collection Status</th>
+                                <th scope="col">IP Address</th>
+                                <th scope="col">Uptime</th>
+                                <th scope="col">Reachability Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in data %}
+                            <tr>
+                                <td>{{ item.hostname }}</td>
+                                <td>{{ item.collectionStatus }}</td>
+                                <td>{{ item.managementIpAddress }}</td>
+                                <td>{{ item.upTime }}</td>
+                                <td>{{ item.reachabilityStatus }}</td>
+                              </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+              </div><!-- /.lits-group -->
+            </div><!-- /.card -->
+          </div><!-- /card-deck-xl -->
+        <ul>
+        </ul>
+      </div><!-- /.page-section -->
+    </div><!-- /.page-inner -->
+  </div><!-- /.page -->
+{% endblock %}

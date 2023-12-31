@@ -1,0 +1,475 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style>
+
+        .table{
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+      
+        .table th,
+        .table td {
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .table td{
+            border: 1px solid #E2E2E4;
+        }
+      
+        @media (min-width: 577px) and (max-width: 1700px) {
+            .table th,
+            .table td {
+            white-space: normal;
+        }
+        }
+
+        @media (max-width: 576px) {
+        .table th,
+        .table td {
+            white-space: normal;
+            word-break: break-word;
+        }
+        }
+        
+    </style>
+</head>
+<title> PE File Details </title>
+  <!-- .page -->
+  <div class="page">
+    <!-- .page-inner -->
+    <div class="page-inner">
+      <!-- .page-title-bar -->
+      <header class="page-title-bar">
+        <div class="d-flex flex-column flex-md-row">
+          <div class="ml-auto">
+          </div>
+        </div>
+      </header><!-- /.page-title-bar -->
+      <!-- .page-section -->
+      <div class="page-section">
+        <!-- card-deck-xl -->
+        <div class="card-deck-xl">
+            <!-- .card -->
+            <div class="card card-fluid pb-3">
+              <div class="card-header mx-5 mt-2" style="font-size: 26px"> Details </div><!-- .lits-group -->
+                <br>
+                <div class="row mx-5">
+                    <div class="col-lg-12">
+                        <table class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width: 35%;" scope="col">Hash</th>
+                                    <th style="width: 18%;" scope="col">Type</th>
+                                    <th style="width: 18%;" scope="col">Date</th>
+                                    <th style="width: 18%;" scope="col">Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: none; background-color: white;">{{ pefile.sha256 }}</td>
+                                    <td style="border: none; background-color: white;">{{ pefile.Type }}</td>
+                                    <td style="border: none; background-color: white;">{{ pefile.Date|date:"Y-m-d" }}</td>
+                                    <td style="border: none; background-color: white;">{{ pefile.Time }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="list-group-item mx-5">
+                    <div class="col-lg-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;" scope="col">Source</th>
+                                    <th style="width: 35%;" scope="col">Feature</th>
+                                    <th style="width: 30%;" scope="col">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="16" style="vertical-align: middle;">DOS Header</td>
+                                    <td>Last Page Bytes</td>
+                                    <td>{{ pefile.e_cblp }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pages In File</td>
+                                    <td>{{ pefile.e_cp }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Relocations</td>
+                                    <td>{{ pefile.e_crlc }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Header Size In Paragraphs</td>
+                                    <td>{{ pefile.e_cparhdr }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum Extra Paragraphs</td>
+                                    <td>{{ pefile.e_minalloc }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum Extra Paragraphs</td>
+                                    <td>{{ pefile.e_maxalloc }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initial Value Of SS</td>
+                                    <td>{{ pefile.e_ss }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initial Value Of SP</td>
+                                    <td>{{ pefile.e_sp }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Checksum Value</td>
+                                    <td>{{ pefile.e_csum }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initial Value of IP</td>
+                                    <td>{{ pefile.e_ip }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initial Value of CS</td>
+                                    <td>{{ pefile.e_cs }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Relocation Table File Address</td>
+                                    <td>{{ pefile.e_lfarlc }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Overlay Number</td>
+                                    <td>{{ pefile.e_ovno }}</td>
+                                </tr>
+                                <tr>
+                                    <td>OEM Identifier</td>
+                                    <td>{{ pefile.e_oemid }}</td>
+                                </tr>
+                                <tr>
+                                    <td>OEM Information</td>
+                                    <td>{{ pefile.e_oeminfo }}</td>
+                                </tr>
+                                <tr>
+                                    <td>EXE Header Address</td>
+                                    <td>{{ pefile.e_lfanew }}</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="6" style="vertical-align: middle;">COFF Header</td>
+                                    <td>Machine</td>
+                                    <td>{{ pefile.Machine }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Number Of Sections</td>
+                                    <td>{{ pefile.NumberOfSections }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pointer To Symbol Table</td>
+                                    <td>{{ pefile.PointerToSymbolTable }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Number Of Symbols</td>
+                                    <td>{{ pefile.NumberOfSymbols }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Optional Header</td>
+                                    <td>{{ pefile.SizeOfOptionalHeader }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Charactaristics</td>
+                                    <td>{{ pefile.Characteristics }}</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="27" style="vertical-align: middle;">Optional Header</td>
+                                    <td>Magic</td>
+                                    <td>{{ pefile.Magic }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Major Linker Version</td>
+                                    <td>{{ pefile.MajorLinkerVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Minor Linker Version</td>
+                                    <td>{{ pefile.MinorLinkerVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Code</td>
+                                    <td>{{ pefile.SizeOfCode }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Initialized Data</td>
+                                    <td>{{ pefile.SizeOfInitializedData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Uninitialized Data</td>
+                                    <td>{{ pefile.SizeOfUninitializedData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Address Of Entry Point</td>
+                                    <td>{{ pefile.AddressOfEntryPoint }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Base Of Code</td>
+                                    <td>{{ pefile.BaseOfCode }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Image Base</td>
+                                    <td>{{ pefile.ImageBase }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Section Alignment</td>
+                                    <td>{{ pefile.SectionAlignment }}</td>
+                                </tr>
+                                <tr>
+                                    <td>File Alignment</td>
+                                    <td>{{ pefile.FileAlignment }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Major Operating System Version</td>
+                                    <td>{{ pefile.MajorOperatingSystemVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Minor Operating System Version</td>
+                                    <td>{{ pefile.MinorOperatingSystemVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Major Image Version</td>
+                                    <td>{{ pefile.MajorImageVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Minor Image Version</td>
+                                    <td>{{ pefile.MinorImageVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Major Subsystem Version</td>
+                                    <td>{{ pefile.MajorSubsystemVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Minor Subsystem Version</td>
+                                    <td>{{ pefile.MinorSubsystemVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Win32 Version Value</td>
+                                    <td>{{ pefile.Reserved1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Image</td>
+                                    <td>{{ pefile.SizeOfImage }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Headers</td>
+                                    <td>{{ pefile.SizeOfHeaders }}</td>
+                                </tr>
+                                <tr>
+                                    <td>CheckSum</td>
+                                    <td>{{ pefile.CheckSum }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Subsystem</td>
+                                    <td>{{ pefile.Subsystem }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Dll Characteristics</td>
+                                    <td>{{ pefile.DllCharacteristics }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Stack Reserve</td>
+                                    <td>{{ pefile.SizeOfStackReserve }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Heap Reserve</td>
+                                    <td>{{ pefile.SizeOfHeapReserve }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Size Of Heap Commit</td>
+                                    <td>{{ pefile.SizeOfHeapCommit }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Loader Flags</td>
+                                    <td>{{ pefile.LoaderFlags }}</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="41" style="vertical-align: middle;background-color:#F3F3F4">PE Sections</td>
+                                    <td>Executable (text) Virtual Size</td>
+                                    <td>{{ pefile.text_Misc_VirtualSize }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Executable (text) Virtual Address</td>
+                                    <td>{{ pefile.text_VirtualAddress }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Executable (text) Raw Data Size</td>
+                                    <td>{{ pefile.text_SizeOfRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Executable (text) Pointer To Raw Data</td>
+                                    <td>{{ pefile.text_PointerToRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Executable (text) Pointer To Relocations</td>
+                                    <td>{{ pefile.text_PointerToRelocations }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Executable (text) Pointer To Line Numbers</td>
+                                    <td>{{ pefile.text_PointerToLinenumbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Executable (text) Number Of Relocations</td>
+                                    <td>{{ pefile.text_NumberOfRelocations }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Executable (text) Number Of Line Numbers</td>
+                                    <td>{{ pefile.text_NumberOfLinenumbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Executable (text) Characteristics</td>
+                                    <td>{{ pefile.text_Characteristics }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Virtual Size</td>
+                                    <td>{{ pefile.data_Misc_VirtualSize }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Virtual Address</td>
+                                    <td>{{ pefile.data_VirtualAddress }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Raw Data Size</td>
+                                    <td>{{ pefile.data_SizeOfRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Pointer To Raw Data</td>
+                                    <td>{{ pefile.data_PointerToRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Pointer To Relocations</td>
+                                    <td>{{ pefile.data_PointerToRelocations }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Pointer To Line Numbers</td>
+                                    <td>{{ pefile.data_PointerToLinenumbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Number Of Relocations</td>
+                                    <td>{{ pefile.data_NumberOfRelocations }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Number Of Line Numbers</td>
+                                    <td>{{ pefile.data_NumberOfLinenumbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Initialized (data) Characteristics</td>
+                                    <td>{{ pefile.data_Characteristics }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata) Virtual Size</td>
+                                    <td>{{ pefile.idata_Misc_VirtualSize }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata) Virtual Address</td>
+                                    <td>{{ pefile.idata_VirtualAddress }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata)Data Raw Data Size</td>
+                                    <td>{{ pefile.idata_SizeOfRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata) Pointer To Raw Data</td>
+                                    <td>{{ pefile.idata_PointerToRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata) Pointer To Relocations</td>
+                                    <td>{{ pefile.idata_PointerToRelocations }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata) Data Pointer To Line Numbers</td>
+                                    <td>{{ pefile.idata_PointerToLinenumbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata) Number Of Relocations</td>
+                                    <td>{{ pefile.idata_NumberOfRelocations }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata) Number Of Line Numbers</td>
+                                    <td>{{ pefile.idata_NumberOfLinenumbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Import (idata) Characteristics</td>
+                                    <td>{{ pefile.idata_Characteristics }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Virtual Size</td>
+                                    <td>{{ pefile.rsrc_Misc_VirtualSize }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Virtual Address</td>
+                                    <td>{{ pefile.rsrc_VirtualAddress }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Raw Data Size</td>
+                                    <td>{{ pefile.rsrc_SizeOfRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Pointer To Raw Data</td>
+                                    <td>{{ pefile.rsrc_PointerToRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Pointer To Relocations</td>
+                                    <td>{{ pefile.rsrc_PointerToRelocations }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Pointer To Line Numbers</td>
+                                    <td>{{ pefile.rsrc_PointerToLinenumbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Number Of Relocations</td>
+                                    <td>{{ pefile.rsrc_NumberOfRelocations }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Number Of Line Numbers</td>
+                                    <td>{{ pefile.rsrc_NumberOfLinenumbers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resource (rsrc) Characteristics</td>
+                                    <td>{{ pefile.rsrc_Characteristics }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Uninitialized (bss) Virtual Size</td>
+                                    <td>{{ pefile.bss_Misc_VirtualSize }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Uninitialized (bss) Virtual Address</td>
+                                    <td>{{ pefile.bss_VirtualAddress }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Uninitialized (bss) Raw Data Size</td>
+                                    <td>{{ pefile.bss_SizeOfRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Uninitialized (bss) Pointer To Raw Data</td>
+                                    <td>{{ pefile.bss_PointerToRawData }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Uninitialized (bss) Characteristics</td>
+                                    <td>{{ pefile.bss_Characteristics }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <a href="{{ export_url }}"><button class="btn btn-primary" style="white-space: nowrap; text-overflow: ellipsis; float:right;">Export Data</button></a>
+                    </div>
+                </div>
+                <div>
+              </div><!-- /.lits-group -->
+            </div><!-- /.card -->
+          </div><!-- /card-deck-xl -->
+        <ul>
+        </ul>
+      </div><!-- /.page-section -->
+    </div><!-- /.page-inner -->
+  </div><!-- /.page -->
+{% endblock %}

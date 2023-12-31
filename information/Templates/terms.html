@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style>
+        .table{
+            width: 100%;
+            table-layout: fixed;
+        }
+      
+        .table th,
+        .table td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+      
+        @media (min-width: 577px) and (max-width: 1700px) {
+        .table th,
+        .table td {
+            white-space: normal;
+        }
+  }
+
+        @media (max-width: 576px) {
+        .table th,
+        .table td {
+            white-space: normal;
+            word-break: break-word;
+        }
+        }
+    </style>
+    <script>
+        function toggleSortOrder(column) {
+            var currentColumn = "{{ column }}";
+            var currentSort = "{{ sort }}";
+            var newSort = "asc";
+
+            if (currentColumn === column && currentSort === "asc") {
+                newSort = "desc";
+            }
+
+            var url = window.location.href.split('?')[0] + '?column=' + column + '&sort=' + newSort;
+            window.location.href = url;
+        }
+    </script>
+</head>
+<title> Terms </title>
+  <!-- .page -->
+  <div class="page">
+    <!-- .page-inner -->
+    <div class="page-inner">
+      <!-- .page-title-bar -->
+      <header class="page-title-bar">
+        <div class="d-flex flex-column flex-md-row">
+          <div class="ml-auto">
+          </div>
+        </div>
+      </header><!-- /.page-title-bar -->
+      <!-- .page-section -->
+      <div class="page-section">
+        <!-- card-deck-xl -->
+        <div class="card-deck-xl">
+            <!-- .card -->
+            <div class="card card-fluid pb-3">
+              <div class="card-header mx-5 mt-2" style="font-size: 26px"> Terms of Service </div><!-- .lits-group -->
+                <div class="lits-group list-group-flush">
+                    <div class="list-group-item mx-5">
+                        <div class="col-lg-12">
+                            <br>
+                            <h5>Acceptance of Terms</h5>
+                            <p>By accessing or using our web portal, you agree to be bound by these Terms and all applicable laws and regulations. If you do not agree with these Terms, please do not use our web portal.</p>
+                            <h5>Use of the Web Portal</h5>
+                            <p>You may use our web portal solely for lawful purposes and in accordance with these Terms. You agree not to:</p>
+                            <ul>
+                                <li>Violate any applicable laws or regulations.</li>
+                                <li>Use our web portal in any way that could disable, damage, or impair the functionality or security of the portal or interfere with other users' access to it.</li>
+                                <li>Attempt to gain unauthorized access to any part of the web portal or any systems or networks associated with it.</li>
+                                <li>Collect or store personal information of other users without their consent.</li>
+                                <li>Use any automated means to access or scrape data from the web portal.</li>
+                            </ul>
+                            <h5>Intellectual Property</h5>
+                            <p>The content, features, and functionality of our web portal are owned by us or our licensors and are protected by intellectual property laws. You may not reproduce, distribute, modify, or create derivative works of any content from our web portal without our prior written consent.</p>
+                            <h5>Limitation of Liability</h5>
+                            <p>To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, consequential, special, or punitive damages arising out of or in connection with the use or inability to use our web portal.</p>
+                            <h5>Changes to the Terms</h5>
+                            <p>We reserve the right to modify or update these Terms at any time without prior notice. Any changes will be posted on this page, and the revised Terms will become effective when posted. Your continued use of our web portal after any such modifications constitutes your acceptance of the updated Terms.</p>
+                            <br>
+                            <p>Last updated: 7/12/2023</p>
+                        </div>
+                    </div>
+                </div><!-- /.lits-group-item -->
+              </div><!-- /.lits-group -->
+          </div><!-- /card-deck-xl -->
+        <ul>
+        </ul>
+      </div><!-- /.page-section -->
+    </div><!-- /.page-inner -->
+  </div><!-- /.page -->
+{% endblock %}

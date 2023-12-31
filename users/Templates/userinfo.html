@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<title> User Details </title>
+  <!-- .page -->
+  <div class="page" style="width: 100%; height: 50%; margin: 0; padding: 0;">
+    <!-- .page-inner -->
+    <div class="page-inner">
+      <main>
+        <!-- .wrapper -->
+        <div class="wrapper">
+          <center>
+            <div class="row">
+              <!-- grid column -->
+              <div class="col-12 col-lg-12">
+                <!-- .card -->
+                <div class="card-fluid">
+                  <!-- .card-body -->
+                  <div class="card-body"> 
+                    <div class="chartjs" style="height: auto">
+                      <h1 class="pb-4 px-6">User Details</h1>
+                      <p>To update any of the information below, please reach out to your system administrator.</p>
+                        <fieldset class="form-group" style="width:450px">
+                          <legend class="border-bottom mb-4">
+                            <label for="id_username" class="form-label">
+                              Username<span class="asteriskField"></span> 
+                            </label>
+                            <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" class="textinput form-control" required="" id="username" readonly value="{{ user.username }}">
+                            <br>
+                            <label for="fullname" class="form-label">
+                              Full Name<span class="asteriskField"></span> 
+                            </label>
+                            <input type="text" name="fullname" autofocus="" autocapitalize="none" autocomplete="fullname" maxlength="150" class="textinput form-control" required="" id="fullname" readonly value="{{ user.first_name }} {{ user.last_name }}">
+                            <br>
+                            <label for="email" class="form-label">
+                              Email Address<span class="asteriskField"></span>
+                            </label>
+                            <input type="text" name="email" autofocus="" autocapitalize="none" autocomplete="email" maxlength="150" class="textinput form-control" required="" id="email" readonly value="{{ user.email }}">
+                          </legend>
+                        </fieldset>
+                        <div class="form-group">
+                          <a href="{% url 'users:password_change' %}"><button class="btn btn-outline-info">Change password</button></a>
+                        </div>
+                    </div>
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+              </div><!-- /grid column -->
+            </div>
+          </center>
+        </div><!-- .app-footer -->
+        <!-- /.wrapper -->
+      </main><!-- /.app-main -->
+    </div><!-- /.page-inner -->
+  </div><!-- /.page -->
+{% endblock %}
